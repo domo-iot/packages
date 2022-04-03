@@ -15,7 +15,7 @@ PKG_FIXUP := patch-libtool
 
 PKG_BUILD_PARALLEL := 1
 PKG_INSTALL := 1
-PKG_BUILD_DEPENDS := rust/host python3/host expat/host
+PKG_BUILD_DEPENDS := rust/host python3/host
 
 include $(INCLUDE_DIR)/package.mk
 include ../../lang/rust/rust_environment.mk
