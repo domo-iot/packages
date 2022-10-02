@@ -4,11 +4,10 @@ PKG_NAME:=ripgrep
 PKG_VERSION:=13.0.0
 PKG_RELEASE:=1
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2021-06-12
-PKG_SOURCE_VERSION:=af6b6c543b224d348a8876f0c06245d9ea7929c5
-PKG_SOURCE_URL:=https://github.com/BurntSushi/ripgrep.git
-PKG_MIRROR_HASH:=05b9f4d11e8213a720197d7c45c764c94b6eb03bf4e3e09c89b2c87b1cdf32fb
+
+PKG_SOURCE:=$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://github.com/BurntSushi/ripgrep/archive/refs/tags/
+PKG_HASH:=0fb17aaf285b3eee8ddab17b833af1e190d73de317ff9648751ab0660d763ed2
 
 PKG_BUILD_DEPENDS:=rust/host
 
