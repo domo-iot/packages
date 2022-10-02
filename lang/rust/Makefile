@@ -13,7 +13,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rust
-PKG_VERSION:=1.59.0
+PKG_VERSION:=1.64.0
 PKG_RELEASE:=1
 
 PKG_LICENSE:=Apache-2.0 MIT
@@ -21,9 +21,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/rust-lang/rust.git
-PKG_SOURCE_DATE:=2021-12-02
-PKG_SOURCE_VERSION:=db9d1b20bba1968c1ec1fc49616d4742c1725b4b
-PKG_MIRROR_HASH:=187ee9de9f8f39f582b808648377bd856a71a02f869fb3035ecb12d9db20be10
+PKG_SOURCE_VERSION:=a55dd71d5fb0ec5a6a3a9e8c27b2127ba491ce52
 
 PKG_HOST_ONLY:=1
 PKG_BUILD_PARALLEL:=1
@@ -74,11 +72,9 @@ RUST_COMMON_ARGS := \
   --enable-llvm-plugins \
   --enable-missing-tools \
   --enable-ninja \
-  --enable-optimize \
-  --enable-optimize-llvm \
-  --enable-parallel-compiler \
   --enable-sanitizers \
   --release-channel=nightly \
+  --set=build.cargo-native-static \
   ${MUSL_CONFIGURE_ARGS}
 
 ##
@@ -167,7 +163,7 @@ define Package/rust
   TITLE:=Rust Programming Language Compiler
   URL:=https://www.rust-lang.org/
   DEPENDS:=@(aarch64||arm||mips64||mips||mipsel||x86_64) \
-    +pkg-config +libunwind
+    +pkg-config +libunwind +libopenssl
 endef
 
 define Package/rust/description
