@@ -4,12 +4,8 @@ RUSTC_HOST_ARCH:=$(HOST_ARCH)-unknown-linux-$(CONFIG_HOST_SUFFIX)
 RUSTC_TARGET_ARCH:=$(REAL_GNU_TARGET_NAME)
 CARGO_HOME:=$(STAGING_DIR_HOST)
 
-# These RUSTFLAGS are common across all TARGETs
-RUSTFLAGS = "-C linker=$(TOOLCHAIN_DIR)/bin/$(TARGET_CC_NOCACHE) -C ar=$(TOOLCHAIN_DIR)/bin/$(TARGET_AR)"
-
 # Common Build Flags
 RUST_BUILD_FLAGS = \
-  RUSTFLAGS=$(RUSTFLAGS) \
   CARGO_HOME="$(CARGO_HOME)"
 
 # This adds the rust environmental variables to Make calls
@@ -26,14 +22,20 @@ ifeq ($(ARCH),"arm")
   endif
 endif
 
+
 # These allow Cargo packaged projects to be compile via $(call xxx/Compile/Cargo)
 define Host/Compile/Cargo
-	cd $(PKG_BUILD_DIR) && CARGO_HOME=$(CARGO_HOME) RUSTFLAGS=$(RUSTFLAGS) cargo update && \
-	  CARGO_HOME=$(CARGO_HOME) RUSTFLAGS=$(RUSTFLAGS) cargo build -v --release \
+	mkdir -p $(PKG_BUILD_DIR)/.cargo
+	cd $(PKG_BUILD_DIR) && \
+	  CARGO_HOME=$(CARGO_HOME) cargo update && \
+	  CARGO_HOME=$(CARGO_HOME) cargo build -v --release \
 	  --target $(RUSTC_TARGET_ARCH),$(RUST_HOST_ARCH)
 endef
 
 define Build/Compile/Cargo
-	cd $(PKG_BUILD_DIR) && CARGO_HOME=$(CARGO_HOME) RUSTFLAGS=$(RUSTFLAGS) cargo update && \
-	  CARGO_HOME=$(CARGO_HOME) RUSTFLAGS=$(RUSTFLAGS) cargo build -v --release --target $(RUSTC_TARGET_ARCH)
+	mkdir -p $(PKG_BUILD_DIR)/.cargo
+	cd $(PKG_BUILD_DIR) && \
+	  CARGO_HOME=$(CARGO_HOME) cargo update && \
+	  echo -e "[target.$(RUSTC_TARGET_ARCH)]\nlinker = \"$(TARGET_CC_NOCACHE)\"" > .cargo/config && \
+	  CARGO_HOME=$(CARGO_HOME) CFLAGS=-mno-outline-atomics TARGET_CC=$(TARGET_CC_NOCACHE) CC=cc cargo build -v --release --target $(RUSTC_TARGET_ARCH)
 endef
