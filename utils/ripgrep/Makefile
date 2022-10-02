@@ -17,9 +17,6 @@ include $(INCLUDE_DIR)/package.mk
 
 define Build/Compile
 	$(call Build/Compile/Cargo, --features 'pcre2')
-#        cd $(PKG_BUILD_DIR) && $(TARGET_CONFIGURE_OPTS) $(CONFIGURE_VARS) cargo update && \
-#	  $(TARGET_CONFIGURE_OPTS) $(CONFIGURE_VARS) cargo build -v --release \
-#	  --target $(REAL_GNU_TARGET_NAME) --features 'pcre2'
 endef
 
 define Package/$(PKG_NAME)
@@ -36,8 +33,7 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/$(REAL_GNU_TARGET_NAME)/release/rg $(1)/bin/rg
-
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/$(RUSTC_TARGET_ARCH)/release/rg $(1)/bin/rg
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
