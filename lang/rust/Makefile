@@ -74,7 +74,7 @@ RUST_COMMON_ARGS := \
   --enable-missing-tools \
   --enable-ninja \
   --enable-sanitizers \
-  --release-channel=nightly \
+  --release-channel=stable \
   --set=build.cargo-native-static \
   ${MUSL_CONFIGURE_ARGS}
 
