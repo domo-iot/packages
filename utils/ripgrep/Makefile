@@ -10,13 +10,14 @@ PKG_SOURCE_URL:=https://github.com/BurntSushi/ripgrep/archive/refs/tags/
 PKG_HASH:=0fb17aaf285b3eee8ddab17b833af1e190d73de317ff9648751ab0660d763ed2
 
 PKG_BUILD_DEPENDS:=rust/host
+HOST_BUILD_DEPENDS:=rust/host
 
 include ../../lang/rust/rust_environment.mk
 include ../../lang/rust/rust_build.mk
 include $(INCLUDE_DIR)/package.mk
 
 define Build/Compile
-	$(call Build/Compile/Cargo, --features 'pcre2')
+	$(call Build/Compile/Cargo,,--features 'pcre2')
 endef
 
 define Package/$(PKG_NAME)
@@ -33,7 +34,7 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/target/$(RUSTC_TARGET_ARCH)/release/rg $(1)/bin/rg
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin $(1)/bin/rg
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
