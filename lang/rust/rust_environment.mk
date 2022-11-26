@@ -18,6 +18,6 @@ ifeq ($(ARCH),"arm")
   endif
 
   ifeq ($(CONFIG_HAS_FPU),y)
-    RUSTC_TARGET_ARCH:=$(subst muslgnueabi,muslgnueabihf,$(RUSTC_TARGET_ARCH))
+    RUSTC_TARGET_ARCH:=$(subst musleabi,musleabihf,$(RUSTC_TARGET_ARCH))
   endif
 endif
