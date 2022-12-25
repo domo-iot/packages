@@ -1,7 +1,6 @@
 # Rust Environmental Vars
 CONFIG_HOST_SUFFIX:=$(shell cut -d"-" -f4 <<<"$(GNU_HOST_NAME)")
 RUSTC_HOST_ARCH:=$(HOST_ARCH)-unknown-linux-$(CONFIG_HOST_SUFFIX)
-RUSTC_TARGET_ARCH:=$(REAL_GNU_TARGET_NAME)
 CARGO_HOME:=$(STAGING_DIR_HOST)
 
 # Common Build Flags
@@ -10,6 +9,13 @@ RUST_BUILD_FLAGS = \
 
 # This adds the rust environmental variables to Make calls
 MAKE_FLAGS += $(RUST_BUILD_FLAGS)
+
+# mips64 openwrt has a specific targed in rustc
+ifeq ($(ARCH),"mips64")
+  RUSTC_TARGET_ARCH:=$(REAL_GNU_TARGET_NAME)
+else
+  RUSTC_TARGET_ARCH:=$(subst openwrt,unknown,$(REAL_GNU_TARGET_NAME))
+endif
 
 # ARM Logic
 ifeq ($(ARCH),"arm")
