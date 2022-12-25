@@ -13,7 +13,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rust
-PKG_VERSION:=1.65.0
+PKG_VERSION:=1.66.0
 PKG_RELEASE:=1
 
 PKG_LICENSE:=Apache-2.0 MIT
@@ -23,7 +23,7 @@ HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/rustc-$(PKG_VERSION)-src/
 PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist/
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
-PKG_HASH=5828bb67f677eabf8c384020582b0ce7af884e1c84389484f7f8d00dd82c0038
+PKG_HASH=3b3cd3ea5a82a266e75d0b35f0b54c16021576d9eb78d384052175a772935a48
 
 PKG_HOST_ONLY:=1
 PKG_BUILD_PARALLEL:=1
@@ -165,7 +165,7 @@ define Package/rust
   TITLE:=Rust Programming Language Compiler
   URL:=https://www.rust-lang.org/
   DEPENDS:=@(aarch64||arm||mips64||mips||mipsel||x86_64) \
-    +pkg-config +libunwind +libopenssl
+    +pkg-config +libunwind +libopenssl +liblzma +libc
 endef
 
 define Package/rust/description
