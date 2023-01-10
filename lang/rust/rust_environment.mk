@@ -17,6 +17,8 @@ else
   RUSTC_TARGET_ARCH:=$(subst openwrt,unknown,$(REAL_GNU_TARGET_NAME))
 endif
 
+RUSTC_TARGET_ARCH:=$(subst muslgnueabi,musleabi,$(RUSTC_TARGET_ARCH))
+
 # ARM Logic
 ifeq ($(ARCH),"arm")
   ifeq ($(CONFIG_arm_v7),y)
