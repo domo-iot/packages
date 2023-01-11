@@ -11,8 +11,7 @@ PKG_HASH:=0fb17aaf285b3eee8ddab17b833af1e190d73de317ff9648751ab0660d763ed2
 
 PKG_BUILD_DEPENDS:=rust/host
 
-include ../../lang/rust/rust_environment.mk
-include ../../lang/rust/rust_build.mk
+include ../../lang/rust/rust-package.mk
 include $(INCLUDE_DIR)/package.mk
 
 define Build/Compile

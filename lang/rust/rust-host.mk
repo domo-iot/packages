@@ -1,7 +1,7 @@
 # Rust Environmental Vars
 CONFIG_HOST_SUFFIX:=$(shell cut -d"-" -f4 <<<"$(GNU_HOST_NAME)")
 RUSTC_HOST_ARCH:=$(HOST_ARCH)-unknown-linux-$(CONFIG_HOST_SUFFIX)
-CARGO_HOME:=$(STAGING_DIR_HOST)
+CARGO_HOME:=$(STAGING_DIR_HOST)/cargo
 
 # Common Build Flags
 RUST_BUILD_FLAGS = \
