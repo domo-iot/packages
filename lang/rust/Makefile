@@ -13,7 +13,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rust
-PKG_VERSION:=1.66.0
+PKG_VERSION:=1.66.1
 PKG_RELEASE:=1
 
 PKG_LICENSE:=Apache-2.0 MIT
@@ -23,7 +23,7 @@ HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/rustc-$(PKG_VERSION)-src/
 PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist/
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
-PKG_HASH=3b3cd3ea5a82a266e75d0b35f0b54c16021576d9eb78d384052175a772935a48
+PKG_HASH=5b3c933a94c72187705d4ee293198babfdd09442f5937fbd685db3a81f4959ba
 
 PKG_HOST_ONLY:=1
 PKG_BUILD_PARALLEL:=1
@@ -38,8 +38,8 @@ include $(INCLUDE_DIR)/package.mk
 # Requires Python3 to build
 HOST_BUILD_DEPENDS:=python3/host
 
-# rust environmental variables
-include ./rust_environment.mk
+# rust environment variables
+include ./rust-host.mk
 
 # Rust Temp Directory
 RUST_TMP_DIR:=$(TMP_DIR)/rust-install
@@ -50,12 +50,8 @@ RUST_INSTALL_TARGET_FILENAME:=$(PKG_NAME)-$(PKG_VERSION)-$(RUSTC_TARGET_ARCH)-in
 # Rust-lang has an uninstall script
 RUST_UNINSTALL:=$(CARGO_HOME)/lib/rustlib/uninstall.sh
 
-# This checks to see if the dist installation already exists
-IS_RUSTC_INSTALLED:=$(or $(and $(wildcard $(CARGO_HOME)/bin/rustc),true),false)
-IS_CARGO_INSTALLED:=$(or $(and $(wildcard $(CARGO_HOME)/bin/cargo),true),false)
-
-# MUSL Target Flags
-MUSL_CONFIGURE_ARGS = \
+# Target Flags
+TARGET_CONFIGURE_ARGS = \
   --set=target.$(RUSTC_TARGET_ARCH).ar=$(TARGET_AR) \
   --set=target.$(RUSTC_TARGET_ARCH).cc=$(TARGET_CC_NOCACHE) \
   --set=target.$(RUSTC_TARGET_ARCH).cxx=$(TARGET_CXX_NOCACHE) \
@@ -66,25 +62,9 @@ MUSL_CONFIGURE_ARGS = \
 # CARGO_HOME is an environmental
 HOST_CONFIGURE_OPTS += CARGO_HOME="$(CARGO_HOME)"
 
-# The Flags are Common between HOST and TARGET
-RUST_COMMON_ARGS := \
-  --build=$(RUSTC_HOST_ARCH) \
-  --dist-compression-formats=xz \
-  --enable-llvm-link-shared \
-  --enable-llvm-plugins \
-  --enable-missing-tools \
-  --enable-ninja \
-  --enable-sanitizers \
-  --release-channel=stable \
-  --enable-cargo-native-static \
-  ${MUSL_CONFIGURE_ARGS}
-
-##
-# Because OpenWrt uses default configure flags that are not recognized
-# we override the default and set our own.
-#
-# Rust HOST Configuration Arguments
+# Rust Configuration Arguments
 HOST_CONFIGURE_ARGS = \
+  --build=$(RUSTC_HOST_ARCH) \
   --target=$(RUSTC_TARGET_ARCH),$(RUSTC_HOST_ARCH) \
   --host=$(RUSTC_HOST_ARCH) \
   --prefix=$(CARGO_HOME) \
@@ -93,24 +73,15 @@ HOST_CONFIGURE_ARGS = \
   --sysconfdir=$(CARGO_HOME)/etc \
   --datadir=$(CARGO_HOME)/share \
   --mandir=$(CARGO_HOME)/man \
-  ${RUST_COMMON_ARGS}
-
-# TODO: For future use
-# Rust TARGET Configuration Args
-#CONFIGURE_ARGS = \
-#  --target=$(RUSTC_TARGET_ARCH) \
-#  --host=$(RUSTC_TARGET_ARCH) \
-#  --prefix=$(CONFIGURE_PREFIX) \
-#  --bindir=$(CONFIGURE_PREFIX)/bin \
-#  --libdir=$(CONFIGURE_PREFIX)/lib \
-#  --sysconfdir=$(CONFIGURE_PREFIX)/etc \
-#  --datadir=$(CONFIGURE_PREFIX)/share \
-#  --mandir=$(CONFIGURE_PREFIX)/man \
-#  $(RUST_COMMOM_ARGS) \
-#  --set=llvm.cxxflags='$(RUST_LLVM_CXXFLAGS)'
-
-# Add rust_config.mk Debug flags
-#include ./rust_config.mk
+  --dist-compression-formats=xz \
+  --enable-llvm-link-shared \
+  --enable-llvm-plugins \
+  --enable-missing-tools \
+  --enable-ninja \
+  --disable-sanitizers \
+  --release-channel=stable \
+  --enable-cargo-native-static \
+  ${TARGET_CONFIGURE_ARGS}
 
 define Host/Prepare
 	# Ensure rust temp directory
