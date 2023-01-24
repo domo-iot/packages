@@ -21,7 +21,7 @@ endef
 define Package/$(PKG_NAME)
     SECTION:=utils
     CATEGORY:=Utilities
-    DEPENDS:=@!SMALL_FLASH @!LOW_MEMORY_FOOTPRINT +libpcre2
+    DEPENDS:=$(RUST_ARCH_DEPENDS) @!SMALL_FLASH @!LOW_MEMORY_FOOTPRINT +libpcre2
     TITLE:=ripgrep (rg) regex grep
     URL:=https://github.com/BurntSushi/ripgrep
 endef
