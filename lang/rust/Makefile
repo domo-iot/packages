@@ -135,7 +135,7 @@ define Package/rust
   CATEGORY:=Languages
   TITLE:=Rust Programming Language Compiler
   URL:=https://www.rust-lang.org/
-  DEPENDS:=@(aarch64||arm||mips64||mips||mipsel||x86_64) \
+  DEPENDS:=$(RUST_ARCH_DEPENDS) \
     +pkg-config +libunwind +libopenssl +liblzma +libc
 endef
 

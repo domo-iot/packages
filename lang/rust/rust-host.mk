@@ -3,6 +3,9 @@ CONFIG_HOST_SUFFIX:=$(shell cut -d"-" -f4 <<<"$(GNU_HOST_NAME)")
 RUSTC_HOST_ARCH:=$(HOST_ARCH)-unknown-linux-$(CONFIG_HOST_SUFFIX)
 CARGO_HOME:=$(STAGING_DIR_HOST)/cargo
 
+# Support only a subset for now.
+RUST_ARCH_DEPENDS:=@(aarch64||mips||mipsel||mips64||mips64el||mipsel||powerpc64)
+
 # Common Build Flags
 RUST_BUILD_FLAGS = \
   CARGO_HOME="$(CARGO_HOME)"
