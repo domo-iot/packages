@@ -36,7 +36,7 @@ define Host/Compile
 	cd $(HOST_BUILD_DIR) && \
 	    export PATH="$(CARGO_HOME)/bin:$(PATH)" && \
 	    CARGO_HOME=$(CARGO_HOME) \
-	    cargo install --path . --root $(HOST_BUILD_DIR)
+	    cargo install --path . --root $(HOST_BUILD_DIR) --locked
 endef
 
 define Package/$(PKG_NAME)/description
