@@ -31,17 +31,10 @@ define Package/python3-orjson/description
 orjson is a fast, correct JSON library for Python
 endef
 
-PYTHON3_VARS += \
-    PATH="$(CARGO_HOME)/bin:$(PATH)" \
-    CARGO_HOME=$(CARGO_HOME) \
-    CARGO_BUILD_TARGET=$(RUSTC_TARGET_ARCH)
-
 define Build/Compile
-	$(call Py3Build/InstallBuildDepends)
-	echo -e "[target.$(RUSTC_TARGET_ARCH)]\nlinker = \"$(TARGET_CC_NOCACHE)\"\nrustflags = [\"-Ctarget-feature=-crt-static\"]" > $(CARGO_HOME)/config
 	cd $(PKG_BUILD_DIR) && \
 	    PATH="$(CARGO_HOME)/bin:$(STAGING_DIR_HOSTPKG)/bin:$(PATH)" \
-	    CARGO_HOME=$(CARGO_HOME) CFLAGS=-mno-outline-atomics TARGET_CC=$(TARGET_CC_NOCACHE) CC=cc \
+	    CARGO_HOME=$(CARGO_HOME) TARGET_CFLAGS="$(TARGET_CFLAGS) $(RUST_CFLAGS)" TARGET_CC=$(TARGET_CC_NOCACHE) CC=cc \
 	    maturin build -v -r --strip --target $(RUSTC_TARGET_ARCH) -i python-$(PYTHON3_VERSION) --skip-auditwheel
 	$(call Python3/Run, $(PKG_BUILD_DIR), -m installer --prefix /usr --destdir "$(PKG_INSTALL_DIR)" target/wheels/*.whl)
 endef
