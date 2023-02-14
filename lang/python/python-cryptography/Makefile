@@ -8,20 +8,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python-cryptography
-PKG_VERSION:=3.4.8
+PKG_VERSION:=39.0.0
 PKG_RELEASE:=2
 
 PYPI_NAME:=cryptography
-PKG_HASH:=94cc5ed4ceaefcbe5bf38c8fba6a21fc1d365bb8fb826ea1688e3370b2e24a1c
+PKG_HASH:=f964c7dcf7802d133e8dbd1565914fa0194f9d683d82411989889ecd701e8adf
 
 PKG_LICENSE:=Apache-2.0 BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE.APACHE LICENSE.BSD
 PKG_MAINTAINER:=Jeffery To <jeffery.to@gmail.com>
 
-PKG_BUILD_DEPENDS:=libffi/host
+PKG_BUILD_DEPENDS:=libffi/host rust/host
 
-HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=cffi  # cffi>=1.12
+HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=cffi setuptools-rust # cffi>=1.12
 
+include $(TOPDIR)/feeds/packages/lang/rust/rust-package.mk
 include ../pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include ../python3-package.mk
@@ -47,6 +48,13 @@ cryptography is a package which provides cryptographic recipes and
 primitives to Python developers.  Our goal is for it to be your "cryptographic
 standard library". It supports Python 2.6-2.7, Python 3.3+, and PyPy 2.6+.
 endef
+
+PYTHON3_VARS += \
+	CARGO_HOME=$(CARGO_HOME) \
+	PATH="$(CARGO_HOME)/bin:$(PATH)" \
+	CARGO_BUILD_TARGET=$(RUSTC_TARGET_ARCH) \
+	PYO3_CROSS_INCLUDE_DIR="$(PYTHON3_INC_DIR)" \
+	PYO3_CROSS_LIB_DIR="$(PYTHON3_LIB_DIR)"
 
 $(eval $(call Py3Package,python3-cryptography))
 $(eval $(call BuildPackage,python3-cryptography))
