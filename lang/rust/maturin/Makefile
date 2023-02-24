@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=maturin
-PKG_VERSION:=0.14.10
+PKG_VERSION:=0.14.12
 PKG_RELEASE:=1
 
 PKG_SOURCE:=v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/PyO3/maturin/archive/refs/tags/
-PKG_HASH:=8fc9bcdcb7f1535d5e3e8bb500c348ca1bff5a6dce87b0ab7dbc5a49723da28a
+PKG_HASH:=b1b665ffdfe6fa7f6f7e3ee2b7c3927567dbebea704141ab30dae3a88aba82be
 
 PKG_HOST_ONLY:=1
 PKG_BUILD_PARALLEL:=1
