@@ -30,7 +30,7 @@ orjson is a fast, correct JSON library for Python
 endef
 
 PYTHON3_VARS += \
-                PATH="$(CARGO_HOME)/bin:$(STAGING_DIR_HOSTPKG)/bin:$(PATH)" \
+                PATH="$(CARGO_HOME)/bin:$(PATH)" \
                 CARGO_HOME=$(CARGO_HOME) \
                 CARGO_BUILD_TARGET=$(RUSTC_TARGET_ARCH)
 
