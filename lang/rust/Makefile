@@ -5,7 +5,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rust
-PKG_VERSION:=1.67.0
+PKG_VERSION:=1.68.0
 PKG_RELEASE:=1
 
 PKG_LICENSE:=Apache-2.0 MIT
@@ -15,7 +15,7 @@ HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/rustc-$(PKG_VERSION)-src/
 PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist/
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
-PKG_HASH=d029f14fce45a2ec7a9a605d2a0a40aae4739cb2fdae29ee9f7a6e9025a7fde4
+PKG_HASH=eaf4d8b19f23a232a4770fb53ab5e7acdedec11da1d02b0e5d491ca92ca96d62
 
 PKG_HOST_ONLY:=1
 
